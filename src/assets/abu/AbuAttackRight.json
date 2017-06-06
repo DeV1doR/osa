@@ -1,0 +1,60 @@
+{"frames": {
+
+"AbuAttackRight_1.png":
+{
+	"frame": {"x":1,"y":82,"w":42,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":32},
+	"sourceSize": {"w":42,"h":32}
+},
+"AbuAttackRight_2.png":
+{
+	"frame": {"x":64,"y":1,"w":42,"h":47},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":47},
+	"sourceSize": {"w":42,"h":47}
+},
+"AbuAttackRight_3.png":
+{
+	"frame": {"x":1,"y":1,"w":61,"h":44},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":44},
+	"sourceSize": {"w":61,"h":44}
+},
+"AbuAttackRight_4.png":
+{
+	"frame": {"x":1,"y":47,"w":57,"h":33},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":57,"h":33},
+	"sourceSize": {"w":57,"h":33}
+},
+"AbuAttackRight_5.png":
+{
+	"frame": {"x":60,"y":79,"w":36,"h":37},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":36,"h":37},
+	"sourceSize": {"w":36,"h":37}
+},
+"AbuAttackRight_6.png":
+{
+	"frame": {"x":60,"y":50,"w":46,"h":27},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":27},
+	"sourceSize": {"w":46,"h":27}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "AbuAttackRight.png",
+	"format": "RGBA8888",
+	"size": {"w":107,"h":117},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:c050932072bd954201fee44eac11f0f9:76d108c515e85673353f70b19280995b:2784b65ef7c9882d02f1ab4cc2e90041$"
+}
+}

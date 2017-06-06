@@ -1,0 +1,19 @@
+{
+    "files": [
+        "src/greeter.ts"
+    ],
+    "compilerOptions": {
+        "allowJs": true,
+        "noImplicitAny": false,
+        "alwaysStrict": true,
+        "experimentalDecorators": true,
+        "target": "es5",
+        "outDir": "dist",
+        "removeComments": true,
+        "types": ["node"],
+        "typeRoots" : ["./node_modules/@types"]
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
