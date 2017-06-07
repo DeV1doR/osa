@@ -2,17 +2,27 @@ import * as PIXI from "pixi.js";
 
 export namespace Utils {
 
-    export const enum Direction {
-        Down,
-        Left,
-        Right,
-        Up
+    export const enum Action {
+        WalkDown,
+        WalkLeft,
+        WalkRight,
+        WalkUp,
+        Idle,
+        Shoot,
+    }
+
+    export const enum KeyBoard {
+        W = 87,
+        A = 65,
+        S = 83,
+        D = 68,
+        Spacebar = 32,
     }
 
     export interface IInput {
         seq: number;
         time: number;
-        inputs: Direction[];
+        inputs: Action[];
     }
 
     export interface IKeyboad {

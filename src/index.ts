@@ -50,6 +50,8 @@ abstract class BaseGame {
 
     public abstract load(): void
 
+    public abstract render(): void
+
     private get _interval(): number {
         return 1000 / this.frameTime;
     }
@@ -62,6 +64,7 @@ abstract class BaseGame {
 
         if (this.deltaLoopTime > this._interval) {
             this.update();
+            this.render();
             this.renderer.render();
             this.nextLoopTime = now - (this.deltaLoopTime % this._interval);
         }
@@ -71,19 +74,19 @@ abstract class BaseGame {
 class Game extends BaseGame {
 
     public currentPlayer: BObject.Player;
-    public boardEl: any;
-    public keyboard: { [direction: number]: Utils.IKeyboad };
+    public keyboard: { [action: number]: Utils.IKeyboad };
 
     public load(): void {
         PIXI.loader
             .add('SkeletonArcherAttackRight', 'static/assets/SkeletonArcher/SkeletonArcherAttackRight.json')
+            .add('SkeletonArcherWalkRight', 'static/assets/SkeletonArcher/SkeletonArcherWalkRight.json')
             .add('AbuAttackRight', 'static/assets/Abu/AbuAttackRight.json')
             .add('AbuIdleRight', 'static/assets/Abu/AbuIdleRight.json')
             .add('AbuWalkRight', 'static/assets/Abu/AbuWalkRight.json');
     }
 
     public create(): void {
-        const mc: PIXI.extras.AnimatedSprite = makeClip('SkeletonArcherAttackRight', 0.2);
+        const mc: PIXI.extras.AnimatedSprite = makeClip('SkeletonArcherWalkRight', 0.3);
         mc.play();
         const container: PIXI.Container = new PIXI.Container();
         container.addChild(mc);
@@ -92,23 +95,39 @@ class Game extends BaseGame {
         this.currentPlayer = new BObject.Player('1');
         this.currentPlayer.setObject(container);
         this.keyboard = {
-            [Utils.Direction.Down]: Utils.createKey(40),
-            [Utils.Direction.Left]: Utils.createKey(37),
-            [Utils.Direction.Right]: Utils.createKey(39),
-            [Utils.Direction.Up]: Utils.createKey(38),
+            [Utils.Action.WalkDown]: Utils.createKey(Utils.KeyBoard.S),
+            [Utils.Action.WalkLeft]: Utils.createKey(Utils.KeyBoard.A),
+            [Utils.Action.WalkRight]: Utils.createKey(Utils.KeyBoard.D),
+            [Utils.Action.WalkUp]: Utils.createKey(Utils.KeyBoard.W),
+            [Utils.Action.Shoot]: Utils.createKey(Utils.KeyBoard.Spacebar),
         };
     }
 
     public update(): void {
         this._handleInput();
+
+        if (this.currentPlayer.isFaceRight) {
+            this.currentPlayer.canvasEl.scale.x = 1;
+        } else if (this.currentPlayer.isFaceLeft) {
+            this.currentPlayer.canvasEl.scale.x = -1;
+        }
+    }
+
+    public render(): void {
+        this.currentPlayer.redrawPos();
     }
 
     private _handleInput(): void {
-        let inputs: Utils.Direction[] = [];
-        for (let direction in Object.keys(this.keyboard)) {
-            if (this.keyboard[direction].isDown) {
-                inputs.push(parseInt(direction));
+        let inputs: Utils.Action[] = [];
+        let noInput: boolean = true;
+        for (let action of Object.keys(this.keyboard)) {
+            if (this.keyboard[action].isDown) {
+                inputs.push(parseInt(action));
+                noInput = false;
             }
+        }
+        if (noInput) {
+            inputs.push(Utils.Action.Idle);
         }
         if (inputs.length > 0) {
             this.currentPlayer.inputSeq += 1;
@@ -121,24 +140,26 @@ class Game extends BaseGame {
         }
     }
 
-
     private _applyInput(player: BObject.Player, input: Utils.IInput): void {
         let vector: Utils.IVector = {x: 0, y: 0};
         //don't process ones we already have simulated locally
         if (input.seq > player.lastInputSeq) {
             for (let cmd of input.inputs) {
                 switch (cmd) {
-                    case Utils.Direction.Down:
+                    case Utils.Action.WalkDown:
                         vector.y += player.speed.y;
                         break;
-                    case Utils.Direction.Left:
+                    case Utils.Action.WalkLeft:
                         vector.x -= player.speed.x;
                         break;
-                    case Utils.Direction.Right:
+                    case Utils.Action.WalkRight:
                         vector.x += player.speed.x;
                         break;                
-                    case Utils.Direction.Up:
+                    case Utils.Action.WalkUp:
                         vector.y -= player.speed.y;
+                        break;
+                    case Utils.Action.Shoot:
+                        console.log(1);
                         break;
                 }
             }

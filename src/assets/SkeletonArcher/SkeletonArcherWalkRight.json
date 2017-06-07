@@ -1,0 +1,108 @@
+{"frames": {
+
+"SkeletonArcherWalkRight_1.png":
+{
+	"frame": {"x":1,"y":118,"w":33,"h":36},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":10,"w":33,"h":36},
+	"sourceSize": {"w":48,"h":48}
+},
+"SkeletonArcherWalkRight_2.png":
+{
+	"frame": {"x":1,"y":1,"w":33,"h":37},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":9,"w":33,"h":37},
+	"sourceSize": {"w":48,"h":48}
+},
+"SkeletonArcherWalkRight_3.png":
+{
+	"frame": {"x":1,"y":232,"w":33,"h":36},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":10,"w":33,"h":36},
+	"sourceSize": {"w":48,"h":48}
+},
+"SkeletonArcherWalkRight_4.png":
+{
+	"frame": {"x":1,"y":40,"w":33,"h":37},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":9,"w":33,"h":37},
+	"sourceSize": {"w":48,"h":48}
+},
+"SkeletonArcherWalkRight_5.png":
+{
+	"frame": {"x":1,"y":194,"w":33,"h":36},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":10,"w":33,"h":36},
+	"sourceSize": {"w":48,"h":48}
+},
+"SkeletonArcherWalkRight_6.png":
+{
+	"frame": {"x":1,"y":270,"w":33,"h":36},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":10,"w":33,"h":36},
+	"sourceSize": {"w":48,"h":48}
+},
+"SkeletonArcherWalkRight_7.png":
+{
+	"frame": {"x":1,"y":79,"w":33,"h":37},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":9,"w":33,"h":37},
+	"sourceSize": {"w":48,"h":48}
+},
+"SkeletonArcherWalkRight_8.png":
+{
+	"frame": {"x":1,"y":308,"w":33,"h":36},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":10,"w":33,"h":36},
+	"sourceSize": {"w":48,"h":48}
+},
+"SkeletonArcherWalkRight_9.png":
+{
+	"frame": {"x":1,"y":383,"w":33,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":11,"w":33,"h":35},
+	"sourceSize": {"w":48,"h":48}
+},
+"SkeletonArcherWalkRight_10.png":
+{
+	"frame": {"x":1,"y":156,"w":33,"h":36},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":10,"w":33,"h":36},
+	"sourceSize": {"w":48,"h":48}
+},
+"SkeletonArcherWalkRight_11.png":
+{
+	"frame": {"x":1,"y":194,"w":33,"h":36},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":10,"w":33,"h":36},
+	"sourceSize": {"w":48,"h":48}
+},
+"SkeletonArcherWalkRight_12.png":
+{
+	"frame": {"x":1,"y":346,"w":33,"h":35},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":11,"w":33,"h":35},
+	"sourceSize": {"w":48,"h":48}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "SkeletonArcherWalkRight.png",
+	"format": "RGBA8888",
+	"size": {"w":35,"h":419},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:b281dd76a050bb6b85adb5d06a57b43d:6e3a83cc0ca9bb8197aa3ea88146a6fb:15f644cf17d0b616c9163384c459b880$"
+}
+}

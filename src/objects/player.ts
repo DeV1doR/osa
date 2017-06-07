@@ -19,17 +19,29 @@ export namespace BObject {
                     public x: number = 0,
                     public y: number = 0,
                     public speed: Utils.IVector = <Utils.IVector>{x: 5, y: 5}) {
+            this.prevPos = <Utils.IVector>{x: x, y: y};
         }
 
         public setObject(canvasEl: PIXI.Container): void {
             this.canvasEl = canvasEl;
-            this.canvasEl.position.set(this.pos.x, this.pos.y);
+            this.redrawPos();
+        }
+
+        public redrawPos(): void {
+            this.canvasEl.position.set(this.pos.x - 0.5 * this.width, this.pos.y - 0.5 * this.height);
+        }
+
+        public get width(): number {
+            return this.canvasEl.width;
+        }
+
+        public get height(): number {
+            return this.canvasEl.height;
         }
 
         public set pos(value: Utils.IVector) {
             this.x = value.x;
             this.y = value.y;
-            this.canvasEl.position.set(value.x, value.y);
         }
 
         public get pos(): Utils.IVector {
@@ -37,6 +49,14 @@ export namespace BObject {
                 x: this.x,
                 y: this.y,
             }
+        }
+
+        public get isFaceRight(): boolean {
+            return this.prevPos.x < this.pos.x;
+        }
+
+        public get isFaceLeft(): boolean {
+            return this.prevPos.x > this.pos.x;
         }
     }
 
