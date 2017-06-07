@@ -78,6 +78,9 @@ class Game extends BaseGame {
 
     public load(): void {
         PIXI.loader
+            .add('NinjaAttackRight', 'static/assets/Ninja/NinjaAttackRight.json')
+            .add('NinjaIdleRight', 'static/assets/Ninja/NinjaIdleRight.json')
+            .add('NinjaWalkRight', 'static/assets/Ninja/NinjaWalkRight.json')
             .add('SkeletonArcherAttackRight', 'static/assets/SkeletonArcher/SkeletonArcherAttackRight.json')
             .add('SkeletonArcherWalkRight', 'static/assets/SkeletonArcher/SkeletonArcherWalkRight.json')
             .add('AbuAttackRight', 'static/assets/Abu/AbuAttackRight.json')
@@ -86,7 +89,7 @@ class Game extends BaseGame {
     }
 
     public create(): void {
-        const mc: PIXI.extras.AnimatedSprite = makeClip('SkeletonArcherWalkRight', 0.3);
+        const mc: PIXI.extras.AnimatedSprite = makeClip('NinjaIdleRight', 0.15);
         mc.play();
         const container: PIXI.Container = new PIXI.Container();
         container.addChild(mc);
