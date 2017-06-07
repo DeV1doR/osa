@@ -58,10 +58,11 @@ gulp.task('ts-copy', () => {
     })
     .plugin(tsify)
     .bundle()
-    // .on('error', (err: Error) => {
-    //     console.log('\nError: ', err.name);
-    //     console.log(err.message);
-    // })
+    .on('error', function(err: Error) {
+        console.log('\nError: ', err.name);
+        console.log(err.message);
+        this.emit('end');
+    })
     .pipe(source('bundle.js'))
     .pipe(buffer())
     .pipe(gulpif(isProduction, uglify()))
