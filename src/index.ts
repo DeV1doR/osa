@@ -1,8 +1,11 @@
 import * as PIXI from "pixi.js";
 
+import { Utils } from "./utils";
+import { BObject } from "./objects";
+
 function makeClip(name: string, speed: number = 1): PIXI.extras.AnimatedSprite {
 
-    let frameNames: string[] = Object.keys(PIXI.utils.TextureCache).filter(key => key.indexOf(name) == 0);
+    let frameNames: string[] = Object.keys(PIXI.utils.TextureCache).filter(key => key.search(new RegExp('\\' + name + '_\\d+\\.\\w+', 'g')) > -1);
     let textures: PIXI.Texture[] = frameNames.map((frameName) => PIXI.Texture.fromFrame(frameName));
 
     let mc = new PIXI.extras.AnimatedSprite(textures);
@@ -13,11 +16,10 @@ function makeClip(name: string, speed: number = 1): PIXI.extras.AnimatedSprite {
 
 abstract class BaseGame {
 
-    public updateId: number;
-    public nextLoopTime: number;
-    public deltaLoopTime: number;
+    public updateId: number = 0;
+    public nextLoopTime: number = 0;
+    public deltaLoopTime: number = 0;
     public tickRate: number;
-    public lastRun: number;
 
     public canvas: HTMLCanvasElement;
     public renderer: PIXI.Application;
@@ -30,6 +32,7 @@ abstract class BaseGame {
 
         this.canvas = canvas;
         this.renderer = new PIXI.Application(width, height, {
+            backgroundColor: 0xff0000,
             legacy: true,
             view: this.canvas,
         }, true);
@@ -62,28 +65,90 @@ abstract class BaseGame {
             this.renderer.render();
             this.nextLoopTime = now - (this.deltaLoopTime % this._interval);
         }
-        this.tickRate = 1000 / (Date.now() - this.lastRun);
-        this.lastRun = Date.now();
     }
 }
 
 class Game extends BaseGame {
 
+    public currentPlayer: BObject.Player;
+    public boardEl: any;
+    public keyboard: { [direction: number]: Utils.IKeyboad };
+
     public load(): void {
         PIXI.loader
-            .add('aar', 'static/assets/abu/AbuAttackRight.json')
-            .add('air', 'static/assets/abu/AbuIdleRight.json')
-            .add('awr', 'static/assets/abu/AbuWalkRight.json');
+            .add('SkeletonArcherAttackRight', 'static/assets/SkeletonArcher/SkeletonArcherAttackRight.json')
+            .add('AbuAttackRight', 'static/assets/Abu/AbuAttackRight.json')
+            .add('AbuIdleRight', 'static/assets/Abu/AbuIdleRight.json')
+            .add('AbuWalkRight', 'static/assets/Abu/AbuWalkRight.json');
     }
 
     public create(): void {
-        let mc: PIXI.extras.AnimatedSprite = makeClip('AbuWalkRight', 0.2);
+        const mc: PIXI.extras.AnimatedSprite = makeClip('SkeletonArcherAttackRight', 0.2);
         mc.play();
-        this.renderer.stage.addChild(mc);
+        const container: PIXI.Container = new PIXI.Container();
+        container.addChild(mc);
+        this.renderer.stage.addChild(container);
+
+        this.currentPlayer = new BObject.Player('1');
+        this.currentPlayer.setObject(container);
+        this.keyboard = {
+            [Utils.Direction.Down]: Utils.createKey(40),
+            [Utils.Direction.Left]: Utils.createKey(37),
+            [Utils.Direction.Right]: Utils.createKey(39),
+            [Utils.Direction.Up]: Utils.createKey(38),
+        };
     }
 
     public update(): void {
+        this._handleInput();
+    }
 
+    private _handleInput(): void {
+        let inputs: Utils.Direction[] = [];
+        for (let direction in Object.keys(this.keyboard)) {
+            if (this.keyboard[direction].isDown) {
+                inputs.push(parseInt(direction));
+            }
+        }
+        if (inputs.length > 0) {
+            this.currentPlayer.inputSeq += 1;
+            let packet: Utils.IInput = {
+                seq: this.currentPlayer.inputSeq,
+                time: Math.floor(Date.now() / 1000),
+                inputs: inputs,
+            };
+            this._applyInput(this.currentPlayer, packet);
+        }
+    }
+
+
+    private _applyInput(player: BObject.Player, input: Utils.IInput): void {
+        let vector: Utils.IVector = {x: 0, y: 0};
+        //don't process ones we already have simulated locally
+        if (input.seq > player.lastInputSeq) {
+            for (let cmd of input.inputs) {
+                switch (cmd) {
+                    case Utils.Direction.Down:
+                        vector.y += player.speed.y;
+                        break;
+                    case Utils.Direction.Left:
+                        vector.x -= player.speed.x;
+                        break;
+                    case Utils.Direction.Right:
+                        vector.x += player.speed.x;
+                        break;                
+                    case Utils.Direction.Up:
+                        vector.y -= player.speed.y;
+                        break;
+                }
+            }
+        }
+        if (!player.pos) {
+            player.pos = vector;
+        }
+        player.prevPos = Utils.Vector.copy(player.pos);
+        player.pos = Utils.Vector.add(player.pos, vector);
+        // this._checkCollision(player);
     }
 
 }
