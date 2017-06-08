@@ -1,18 +1,8 @@
 import * as PIXI from "pixi.js";
 
-import { Utils } from "./utils";
+import * as utils from "./utils";
 import { BObject } from "./objects";
 
-function makeClip(name: string, speed: number = 1): PIXI.extras.AnimatedSprite {
-
-    let frameNames: string[] = Object.keys(PIXI.utils.TextureCache).filter(key => key.search(new RegExp('\\' + name + '_\\d+\\.\\w+', 'g')) > -1);
-    let textures: PIXI.Texture[] = frameNames.map((frameName) => PIXI.Texture.fromFrame(frameName));
-
-    let mc = new PIXI.extras.AnimatedSprite(textures);
-    mc.animationSpeed = speed;
-
-    return mc;
-}
 
 abstract class BaseGame {
 
@@ -74,46 +64,38 @@ abstract class BaseGame {
 class Game extends BaseGame {
 
     public currentPlayer: BObject.Player;
-    public keyboard: { [action: number]: Utils.IKeyboad };
+    public keyboard: { [action: number]: utils.IKeyboad };
 
     public load(): void {
         PIXI.loader
-            .add('NinjaAttackRight', 'static/assets/Ninja/NinjaAttackRight.json')
-            .add('NinjaIdleRight', 'static/assets/Ninja/NinjaIdleRight.json')
-            .add('NinjaWalkRight', 'static/assets/Ninja/NinjaWalkRight.json')
+            .add('Ninja', 'static/assets/Ninja.json')
             .add('SkeletonArcherAttackRight', 'static/assets/SkeletonArcher/SkeletonArcherAttackRight.json')
             .add('SkeletonArcherWalkRight', 'static/assets/SkeletonArcher/SkeletonArcherWalkRight.json')
-            .add('AbuAttackRight', 'static/assets/Abu/AbuAttackRight.json')
-            .add('AbuIdleRight', 'static/assets/Abu/AbuIdleRight.json')
-            .add('AbuWalkRight', 'static/assets/Abu/AbuWalkRight.json');
+            .add('SkeletonArcherIdleRight', 'static/assets/SkeletonArcher/SkeletonArcherIdleRight.json')
+            .add('Abu', 'static/assets/Abu.json');
     }
 
     public create(): void {
-        const mc: PIXI.extras.AnimatedSprite = makeClip('NinjaIdleRight', 0.15);
-        mc.play();
-        const container: PIXI.Container = new PIXI.Container();
-        container.addChild(mc);
-        this.renderer.stage.addChild(container);
+        // const mc: PIXI.extras.AnimatedSprite = makeClip('AbuWalkRight', 0.15);
+        // mc.play();
+        // const container: PIXI.Container = new PIXI.Container();
+        // container.addChild(mc);
+        const ac = new utils.AnimatedClip('Abu', 'AbuWalkRight', 0.15, this.renderer);
+        ac.play();
 
         this.currentPlayer = new BObject.Player('1');
-        this.currentPlayer.setObject(container);
+        this.currentPlayer.setObject(ac);
         this.keyboard = {
-            [Utils.Action.WalkDown]: Utils.createKey(Utils.KeyBoard.S),
-            [Utils.Action.WalkLeft]: Utils.createKey(Utils.KeyBoard.A),
-            [Utils.Action.WalkRight]: Utils.createKey(Utils.KeyBoard.D),
-            [Utils.Action.WalkUp]: Utils.createKey(Utils.KeyBoard.W),
-            [Utils.Action.Shoot]: Utils.createKey(Utils.KeyBoard.Spacebar),
+            [utils.Action.WalkDown]: utils.createKey(utils.KeyBoard.S),
+            [utils.Action.WalkLeft]: utils.createKey(utils.KeyBoard.A),
+            [utils.Action.WalkRight]: utils.createKey(utils.KeyBoard.D),
+            [utils.Action.WalkUp]: utils.createKey(utils.KeyBoard.W),
+            [utils.Action.Shoot]: utils.createKey(utils.KeyBoard.Spacebar),
         };
     }
 
     public update(): void {
         this._handleInput();
-
-        if (this.currentPlayer.isFaceRight) {
-            this.currentPlayer.canvasEl.scale.x = 1;
-        } else if (this.currentPlayer.isFaceLeft) {
-            this.currentPlayer.canvasEl.scale.x = -1;
-        }
     }
 
     public render(): void {
@@ -121,7 +103,7 @@ class Game extends BaseGame {
     }
 
     private _handleInput(): void {
-        let inputs: Utils.Action[] = [];
+        let inputs: utils.Action[] = [];
         let noInput: boolean = true;
         for (let action of Object.keys(this.keyboard)) {
             if (this.keyboard[action].isDown) {
@@ -130,11 +112,11 @@ class Game extends BaseGame {
             }
         }
         if (noInput) {
-            inputs.push(Utils.Action.Idle);
+            inputs.push(utils.Action.Idle);
         }
         if (inputs.length > 0) {
             this.currentPlayer.inputSeq += 1;
-            let packet: Utils.IInput = {
+            let packet: utils.IInput = {
                 seq: this.currentPlayer.inputSeq,
                 time: Math.floor(Date.now() / 1000),
                 inputs: inputs,
@@ -143,25 +125,25 @@ class Game extends BaseGame {
         }
     }
 
-    private _applyInput(player: BObject.Player, input: Utils.IInput): void {
-        let vector: Utils.IVector = {x: 0, y: 0};
+    private _applyInput(player: BObject.Player, input: utils.IInput): void {
+        let vector: utils.IVector = {x: 0, y: 0};
         //don't process ones we already have simulated locally
         if (input.seq > player.lastInputSeq) {
             for (let cmd of input.inputs) {
                 switch (cmd) {
-                    case Utils.Action.WalkDown:
+                    case utils.Action.WalkDown:
                         vector.y += player.speed.y;
                         break;
-                    case Utils.Action.WalkLeft:
+                    case utils.Action.WalkLeft:
                         vector.x -= player.speed.x;
                         break;
-                    case Utils.Action.WalkRight:
+                    case utils.Action.WalkRight:
                         vector.x += player.speed.x;
                         break;                
-                    case Utils.Action.WalkUp:
+                    case utils.Action.WalkUp:
                         vector.y -= player.speed.y;
                         break;
-                    case Utils.Action.Shoot:
+                    case utils.Action.Shoot:
                         console.log(1);
                         break;
                 }
@@ -170,8 +152,8 @@ class Game extends BaseGame {
         if (!player.pos) {
             player.pos = vector;
         }
-        player.prevPos = Utils.Vector.copy(player.pos);
-        player.pos = Utils.Vector.add(player.pos, vector);
+        player.prevPos = utils.Vector.copy(player.pos);
+        player.pos = utils.Vector.add(player.pos, vector);
         // this._checkCollision(player);
     }
 

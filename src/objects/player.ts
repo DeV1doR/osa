@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 
-import { Utils } from "./../utils";
+import * as utils from "./../utils";
 
 export namespace BObject {
 
@@ -10,25 +10,36 @@ export namespace BObject {
         public lastInputSeq: number = 0;
         public lastInputTime: number = 0;
 
-        public canvasEl?: PIXI.Container;
+        public canvasEl?: any;
 
-        public inputs: Utils.IInput[];
-        public prevPos: Utils.IVector;
+        public inputs: utils.IInput[];
+        public prevPos: utils.IVector;
 
         constructor(public id: string,
                     public x: number = 0,
                     public y: number = 0,
-                    public speed: Utils.IVector = <Utils.IVector>{x: 5, y: 5}) {
-            this.prevPos = <Utils.IVector>{x: x, y: y};
+                    public direction: utils.Direction = utils.Direction.Right,
+                    public speed: utils.IVector = <utils.IVector>{x: 5, y: 5}) {
+            this.prevPos = <utils.IVector>{x: x, y: y};
         }
 
-        public setObject(canvasEl: PIXI.Container): void {
+        public setObject(canvasEl: any): void {
             this.canvasEl = canvasEl;
             this.redrawPos();
         }
 
+        public changeDirection(): void {
+            if (this.isFaceRight) {
+                this.direction = utils.Direction.Right;
+            } else if (this.isFaceLeft) {
+                this.direction = utils.Direction.Left;
+            }
+        }
+
         public redrawPos(): void {
-            this.canvasEl.position.set(this.pos.x - 0.5 * this.width, this.pos.y - 0.5 * this.height);
+            this.changeDirection();
+            this.canvasEl.gotoAndPlay('AbuWalk' + utils.Direction[this.direction]);
+            this.canvasEl.setPos(this.pos.x - 0.5 * this.width, this.pos.y - 0.5 * this.height);
         }
 
         public get width(): number {
@@ -39,12 +50,12 @@ export namespace BObject {
             return this.canvasEl.height;
         }
 
-        public set pos(value: Utils.IVector) {
+        public set pos(value: utils.IVector) {
             this.x = value.x;
             this.y = value.y;
         }
 
-        public get pos(): Utils.IVector {
+        public get pos(): utils.IVector {
             return {
                 x: this.x,
                 y: this.y,
