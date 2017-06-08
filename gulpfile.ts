@@ -80,7 +80,7 @@ gulp.task('browserSync', () => {
         port: settings.GULP_PORT,
         ui: false,
         notify: false,
-        open: true,
+        open: false,
         proxy: "127.0.0.1:9000"
     });
 });

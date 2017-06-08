@@ -19,8 +19,8 @@ export namespace BObject {
                     public x: number = 0,
                     public y: number = 0,
                     public direction: utils.Direction = utils.Direction.Right,
-                    public action: utils.Action = utils.Action.Walk,
-                    public speed: utils.IVector = <utils.IVector>{x: 5, y: 5}) {
+                    public action: utils.Action = utils.Action.Idle,
+                    public speed: utils.IVector = <utils.IVector>{x: 3, y: 3}) {
             this.prevPos = <utils.IVector>{x: x, y: y};
         }
 

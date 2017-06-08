@@ -1,0 +1,684 @@
+{"frames": {
+
+"ReaverAttackLeft_0.png":
+{
+	"frame": {"x":315,"y":1,"w":74,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":0,"w":74,"h":71},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_1.png":
+{
+	"frame": {"x":391,"y":1,"w":74,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":0,"w":74,"h":71},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_2.png":
+{
+	"frame": {"x":85,"y":78,"w":73,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":2,"w":73,"h":69},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_3.png":
+{
+	"frame": {"x":1,"y":78,"w":82,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":82,"h":69},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_4.png":
+{
+	"frame": {"x":160,"y":78,"w":72,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":10,"y":3,"w":72,"h":68},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_5.png":
+{
+	"frame": {"x":1,"y":78,"w":82,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":82,"h":69},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_6.png":
+{
+	"frame": {"x":160,"y":78,"w":72,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":10,"y":3,"w":72,"h":68},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_7.png":
+{
+	"frame": {"x":1,"y":78,"w":82,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":82,"h":69},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_8.png":
+{
+	"frame": {"x":160,"y":78,"w":72,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":10,"y":3,"w":72,"h":68},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_9.png":
+{
+	"frame": {"x":1,"y":78,"w":82,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":82,"h":69},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_10.png":
+{
+	"frame": {"x":160,"y":78,"w":72,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":10,"y":3,"w":72,"h":68},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_11.png":
+{
+	"frame": {"x":1,"y":78,"w":82,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":82,"h":69},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_12.png":
+{
+	"frame": {"x":160,"y":78,"w":72,"h":68},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":10,"y":3,"w":72,"h":68},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_13.png":
+{
+	"frame": {"x":85,"y":78,"w":73,"h":69},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":2,"w":73,"h":69},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_14.png":
+{
+	"frame": {"x":391,"y":1,"w":74,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":0,"w":74,"h":71},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_15.png":
+{
+	"frame": {"x":315,"y":1,"w":74,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":0,"w":74,"h":71},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackLeft_16.png":
+{
+	"frame": {"x":467,"y":1,"w":74,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":0,"w":74,"h":71},
+	"sourceSize": {"w":82,"h":71}
+},
+"ReaverAttackRight_0.png":
+{
+	"frame": {"x":240,"y":1,"w":73,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":0,"w":73,"h":75},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_1.png":
+{
+	"frame": {"x":87,"y":1,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_2.png":
+{
+	"frame": {"x":164,"y":1,"w":74,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":74,"h":75},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_3.png":
+{
+	"frame": {"x":1,"y":1,"w":84,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":75},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_4.png":
+{
+	"frame": {"x":1,"y":149,"w":74,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":76},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_5.png":
+{
+	"frame": {"x":1,"y":1,"w":84,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":75},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_6.png":
+{
+	"frame": {"x":1,"y":149,"w":74,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":76},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_7.png":
+{
+	"frame": {"x":1,"y":1,"w":84,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":75},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_8.png":
+{
+	"frame": {"x":1,"y":149,"w":74,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":76},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_9.png":
+{
+	"frame": {"x":1,"y":1,"w":84,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":75},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_10.png":
+{
+	"frame": {"x":1,"y":149,"w":74,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":76},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_11.png":
+{
+	"frame": {"x":1,"y":1,"w":84,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":75},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_12.png":
+{
+	"frame": {"x":1,"y":149,"w":74,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":76},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_13.png":
+{
+	"frame": {"x":164,"y":1,"w":74,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":74,"h":75},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_14.png":
+{
+	"frame": {"x":87,"y":1,"w":75,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":75},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_15.png":
+{
+	"frame": {"x":240,"y":1,"w":73,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":0,"w":73,"h":75},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverAttackRight_16.png":
+{
+	"frame": {"x":77,"y":149,"w":72,"h":76},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":1,"w":72,"h":76},
+	"sourceSize": {"w":84,"h":77}
+},
+"ReaverIdleLeft_0.png":
+{
+	"frame": {"x":288,"y":151,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleLeft_1.png":
+{
+	"frame": {"x":441,"y":74,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleLeft_2.png":
+{
+	"frame": {"x":510,"y":75,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleLeft_3.png":
+{
+	"frame": {"x":648,"y":75,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleLeft_4.png":
+{
+	"frame": {"x":717,"y":75,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleLeft_5.png":
+{
+	"frame": {"x":786,"y":74,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleLeft_6.png":
+{
+	"frame": {"x":855,"y":74,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleLeft_7.png":
+{
+	"frame": {"x":786,"y":74,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleLeft_8.png":
+{
+	"frame": {"x":717,"y":75,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleLeft_9.png":
+{
+	"frame": {"x":648,"y":75,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleLeft_10.png":
+{
+	"frame": {"x":510,"y":75,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleLeft_11.png":
+{
+	"frame": {"x":441,"y":74,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleLeft_12.png":
+{
+	"frame": {"x":288,"y":151,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleLeft_13.png":
+{
+	"frame": {"x":579,"y":75,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":73},
+	"sourceSize": {"w":67,"h":73}
+},
+"ReaverIdleRight_0.png":
+{
+	"frame": {"x":427,"y":151,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverIdleRight_1.png":
+{
+	"frame": {"x":564,"y":150,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverIdleRight_2.png":
+{
+	"frame": {"x":632,"y":150,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverIdleRight_3.png":
+{
+	"frame": {"x":768,"y":150,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverIdleRight_4.png":
+{
+	"frame": {"x":836,"y":149,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverIdleRight_5.png":
+{
+	"frame": {"x":904,"y":149,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverIdleRight_6.png":
+{
+	"frame": {"x":1063,"y":75,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverIdleRight_7.png":
+{
+	"frame": {"x":904,"y":149,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverIdleRight_8.png":
+{
+	"frame": {"x":836,"y":149,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverIdleRight_9.png":
+{
+	"frame": {"x":768,"y":150,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverIdleRight_10.png":
+{
+	"frame": {"x":632,"y":150,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverIdleRight_11.png":
+{
+	"frame": {"x":564,"y":150,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverIdleRight_12.png":
+{
+	"frame": {"x":427,"y":151,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverIdleRight_13.png":
+{
+	"frame": {"x":700,"y":150,"w":66,"h":73},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":73},
+	"sourceSize": {"w":66,"h":73}
+},
+"ReaverWalkLeft_0.png":
+{
+	"frame": {"x":987,"y":1,"w":70,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":0,"w":70,"h":72},
+	"sourceSize": {"w":73,"h":75}
+},
+"ReaverWalkLeft_1.png":
+{
+	"frame": {"x":218,"y":151,"w":68,"h":73},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":0,"w":68,"h":73},
+	"sourceSize": {"w":73,"h":75}
+},
+"ReaverWalkLeft_2.png":
+{
+	"frame": {"x":151,"y":149,"w":65,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":0,"w":65,"h":75},
+	"sourceSize": {"w":73,"h":75}
+},
+"ReaverWalkLeft_3.png":
+{
+	"frame": {"x":1131,"y":1,"w":64,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":64,"h":75},
+	"sourceSize": {"w":73,"h":75}
+},
+"ReaverWalkLeft_4.png":
+{
+	"frame": {"x":373,"y":74,"w":66,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":0,"w":66,"h":75},
+	"sourceSize": {"w":73,"h":75}
+},
+"ReaverWalkLeft_5.png":
+{
+	"frame": {"x":495,"y":150,"w":67,"h":73},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":1,"w":67,"h":73},
+	"sourceSize": {"w":73,"h":75}
+},
+"ReaverWalkLeft_6.png":
+{
+	"frame": {"x":357,"y":151,"w":68,"h":73},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":1,"w":68,"h":73},
+	"sourceSize": {"w":73,"h":75}
+},
+"ReaverWalkLeft_7.png":
+{
+	"frame": {"x":1059,"y":1,"w":70,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":3,"y":0,"w":70,"h":72},
+	"sourceSize": {"w":73,"h":75}
+},
+"ReaverWalkLeft_8.png":
+{
+	"frame": {"x":693,"y":1,"w":72,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":0,"w":72,"h":72},
+	"sourceSize": {"w":73,"h":75}
+},
+"ReaverWalkLeft_9.png":
+{
+	"frame": {"x":618,"y":1,"w":73,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":73,"h":72},
+	"sourceSize": {"w":73,"h":75}
+},
+"ReaverWalkLeft_10.png":
+{
+	"frame": {"x":543,"y":1,"w":73,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":73,"h":72},
+	"sourceSize": {"w":73,"h":75}
+},
+"ReaverWalkRight_0.png":
+{
+	"frame": {"x":234,"y":78,"w":69,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":69,"h":71},
+	"sourceSize": {"w":72,"h":71}
+},
+"ReaverWalkRight_1.png":
+{
+	"frame": {"x":305,"y":78,"w":66,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":71},
+	"sourceSize": {"w":72,"h":71}
+},
+"ReaverWalkRight_2.png":
+{
+	"frame": {"x":1131,"y":78,"w":64,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":71},
+	"sourceSize": {"w":72,"h":71}
+},
+"ReaverWalkRight_3.png":
+{
+	"frame": {"x":1107,"y":151,"w":63,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":63,"h":71},
+	"sourceSize": {"w":72,"h":71}
+},
+"ReaverWalkRight_4.png":
+{
+	"frame": {"x":1040,"y":150,"w":65,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":65,"h":71},
+	"sourceSize": {"w":72,"h":71}
+},
+"ReaverWalkRight_5.png":
+{
+	"frame": {"x":972,"y":148,"w":66,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":71},
+	"sourceSize": {"w":72,"h":71}
+},
+"ReaverWalkRight_6.png":
+{
+	"frame": {"x":994,"y":75,"w":67,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":71},
+	"sourceSize": {"w":72,"h":71}
+},
+"ReaverWalkRight_7.png":
+{
+	"frame": {"x":924,"y":75,"w":68,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":68,"h":71},
+	"sourceSize": {"w":72,"h":71}
+},
+"ReaverWalkRight_8.png":
+{
+	"frame": {"x":914,"y":1,"w":71,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":71,"h":71},
+	"sourceSize": {"w":72,"h":71}
+},
+"ReaverWalkRight_9.png":
+{
+	"frame": {"x":767,"y":1,"w":72,"h":71},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":72,"h":71},
+	"sourceSize": {"w":72,"h":71}
+},
+"ReaverWalkRight_10.png":
+{
+	"frame": {"x":841,"y":1,"w":71,"h":71},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":0,"w":71,"h":71},
+	"sourceSize": {"w":72,"h":71}
+}},
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "Reaver.png",
+	"format": "RGBA8888",
+	"size": {"w":1196,"h":226},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:4f0a2332cfc1d6dfac1120d72b20d89e:81bd8aba189b6ab94db61c39da8b6b9b:e3b7bdacd27270f469e129fbfc125e6b$"
+}
+}

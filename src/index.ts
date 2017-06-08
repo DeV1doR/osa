@@ -26,6 +26,10 @@ abstract class BaseGame {
             legacy: true,
             view: this.canvas,
         }, true);
+        this.renderer.view.style.position = 'absolute';
+        this.renderer.view.style.left = '50%';
+        this.renderer.view.style.top = '50%';
+        this.renderer.view.style.transform = 'translate3d( -50%, -50%, 0 )';
         this.frameTime = frameTime;
         this.load();
         PIXI.loader.load(() => {
@@ -61,26 +65,35 @@ abstract class BaseGame {
     }
 }
 
+let counter = 0;
+
 class Game extends BaseGame {
 
+    public players: {[uid: string]: BObject.Player} = {};
     public currentPlayer: BObject.Player;
     public keyboard: { [action: number]: {[direction: number]: any} };
 
     public load(): void {
         PIXI.loader
-            .add('Ninja', 'static/assets/Ninja.json')
-            .add('SkeletonArcherAttackRight', 'static/assets/SkeletonArcher/SkeletonArcherAttackRight.json')
-            .add('SkeletonArcherWalkRight', 'static/assets/SkeletonArcher/SkeletonArcherWalkRight.json')
-            .add('SkeletonArcherIdleRight', 'static/assets/SkeletonArcher/SkeletonArcherIdleRight.json')
-            .add('Abu', 'static/assets/Abu.json');
+            .add('Abu', 'static/assets/Abu/Abu.json')
+            .add('Dether', 'static/assets/Dether/Dether.json')
+            .add('Ninja', 'static/assets/Ninja/Ninja.json')
+            .add('Reaver', 'static/assets/Reaver/Reaver.json')
+        ;
     }
 
     public create(): void {
-        const ac: utils.AnimatedClip = new utils.AnimatedClip('Abu', null, 0.15, this.renderer);
-        ac.gotoAndPlay('AbuWalkRight');
-
         this.currentPlayer = new BObject.Player('1');
-        this.currentPlayer.setObject(ac);
+        this.currentPlayer.setObject(new utils.AnimatedClip('Reaver', null, 0.3, this.renderer));
+
+        this.players['1'] = this.currentPlayer;
+
+        this.players['2'] = new BObject.Player('2', 300, 300);
+        this.players['2'].setObject(new utils.AnimatedClip('Ninja', null, 0.1, this.renderer));
+
+        this.players['3'] = new BObject.Player('3', 450, 50);
+        this.players['3'].setObject(new utils.AnimatedClip('Abu', null, 0.2, this.renderer));
+
         this.keyboard = {
             [utils.Action.Walk]: {
                 [utils.Direction.Down]: utils.createKey(utils.KeyBoard.S),
@@ -96,10 +109,33 @@ class Game extends BaseGame {
 
     public update(): void {
         this._handleInput();
+        counter++;
+        this._applyInput(this.players['2'], {
+            seq: counter,
+            time: Math.floor(Date.now() / 1000),
+            inputs: [
+                <utils.ICmd>{
+                    action: utils.Action.Walk,
+                    direction: Math.random() < 0.5 ? utils.Direction.Right: utils.Direction.Left,
+                }
+            ],
+        });
+        this._applyInput(this.players['3'], {
+            seq: counter,
+            time: Math.floor(Date.now() / 1000),
+            inputs: [
+                <utils.ICmd>{
+                    action: utils.Action.Attack,
+                    direction: Math.random() < 0.5 ? utils.Direction.Right: utils.Direction.Left,
+                }
+            ],
+        });
     }
 
     public render(): void {
-        this.currentPlayer.redrawPos();
+        for (let uid of Object.keys(this.players)) {
+            this.players[uid].redrawPos();
+        }
     }
 
     private _handleInput(): void {
@@ -111,7 +147,7 @@ class Game extends BaseGame {
                 if (directions[kd].isDown) {
                     let action: utils.Action = parseInt(ka);
                     let direction: utils.Direction = parseInt(kd);
-                    if (direction === <number>utils.Direction.Empty) {
+                    if (direction === utils.Direction.Empty) {
                         direction = this.currentPlayer.direction;
                     }
                     inputs.push(<utils.ICmd>{
@@ -164,7 +200,6 @@ class Game extends BaseGame {
                         }
                         break;
                     case utils.Action.Attack:
-                        console.log(1);
                         break;
                 }
                 player.setAction(cmd.action);

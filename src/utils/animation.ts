@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 
 export class AnimatedClip {
 
+    private _currentFrame: string;
     private _currentSprite: PIXI.extras.AnimatedSprite = null;
     private _sprites: {[name: string]: PIXI.extras.AnimatedSprite} = {};
 
@@ -78,12 +79,12 @@ export class AnimatedClip {
 
     private _switchSprite(frameName: string): void {
         let sprite: PIXI.extras.AnimatedSprite = this._sprites[frameName];
-        if (typeof(sprite) !== "undefined") {
+        if (typeof(sprite) !== "undefined" && this._currentFrame != frameName) {
             if (this._currentSprite)
                 this._currentSprite.visible = false;
             this._currentSprite = sprite;
             this._currentSprite.visible = true;
-        } else {
+            this._currentFrame = frameName;
             this._currentSprite.gotoAndStop(0);
         }
     }
