@@ -51,6 +51,14 @@ export class AnimatedClip {
         this._currentSprite.scale.x *= -1;
     }
 
+    public get speed(): number {
+        return this._currentSprite.animationSpeed;
+    }
+
+    public set speed(value: number) {
+        this._currentSprite.animationSpeed = value;
+    }
+
     public setPos(x: number, y: number): void {
         this._currentSprite.position.set(x, y);
     }
@@ -75,6 +83,8 @@ export class AnimatedClip {
                 this._currentSprite.visible = false;
             this._currentSprite = sprite;
             this._currentSprite.visible = true;
+        } else {
+            this._currentSprite.gotoAndStop(0);
         }
     }
 }

@@ -64,7 +64,7 @@ abstract class BaseGame {
 class Game extends BaseGame {
 
     public currentPlayer: BObject.Player;
-    public keyboard: { [action: number]: utils.IKeyboad };
+    public keyboard: { [action: number]: {[direction: number]: any} };
 
     public load(): void {
         PIXI.loader
@@ -76,21 +76,21 @@ class Game extends BaseGame {
     }
 
     public create(): void {
-        // const mc: PIXI.extras.AnimatedSprite = makeClip('AbuWalkRight', 0.15);
-        // mc.play();
-        // const container: PIXI.Container = new PIXI.Container();
-        // container.addChild(mc);
-        const ac = new utils.AnimatedClip('Abu', 'AbuWalkRight', 0.15, this.renderer);
-        ac.play();
+        const ac: utils.AnimatedClip = new utils.AnimatedClip('Abu', null, 0.15, this.renderer);
+        ac.gotoAndPlay('AbuWalkRight');
 
         this.currentPlayer = new BObject.Player('1');
         this.currentPlayer.setObject(ac);
         this.keyboard = {
-            [utils.Action.WalkDown]: utils.createKey(utils.KeyBoard.S),
-            [utils.Action.WalkLeft]: utils.createKey(utils.KeyBoard.A),
-            [utils.Action.WalkRight]: utils.createKey(utils.KeyBoard.D),
-            [utils.Action.WalkUp]: utils.createKey(utils.KeyBoard.W),
-            [utils.Action.Shoot]: utils.createKey(utils.KeyBoard.Spacebar),
+            [utils.Action.Walk]: {
+                [utils.Direction.Down]: utils.createKey(utils.KeyBoard.S),
+                [utils.Direction.Left]: utils.createKey(utils.KeyBoard.A),
+                [utils.Direction.Right]: utils.createKey(utils.KeyBoard.D),
+                [utils.Direction.Up]: utils.createKey(utils.KeyBoard.W),
+            },
+            [utils.Action.Attack]: {
+                [utils.Direction.Empty]: utils.createKey(utils.KeyBoard.Spacebar),
+            }
         };
     }
 
@@ -103,16 +103,30 @@ class Game extends BaseGame {
     }
 
     private _handleInput(): void {
-        let inputs: utils.Action[] = [];
+        let inputs: utils.ICmd[] = [];
         let noInput: boolean = true;
-        for (let action of Object.keys(this.keyboard)) {
-            if (this.keyboard[action].isDown) {
-                inputs.push(parseInt(action));
-                noInput = false;
+        for (let ka of Object.keys(this.keyboard)) {
+            let directions = this.keyboard[ka];
+            for (let kd of Object.keys(directions)) {
+                if (directions[kd].isDown) {
+                    let action: utils.Action = parseInt(ka);
+                    let direction: utils.Direction = parseInt(kd);
+                    if (direction === <number>utils.Direction.Empty) {
+                        direction = this.currentPlayer.direction;
+                    }
+                    inputs.push(<utils.ICmd>{
+                        action: action,
+                        direction: direction,
+                    });
+                    noInput = false;
+                }
             }
         }
         if (noInput) {
-            inputs.push(utils.Action.Idle);
+            inputs.push(<utils.ICmd>{
+                action: utils.Action.Idle,
+                direction: this.currentPlayer.direction,
+            });
         }
         if (inputs.length > 0) {
             this.currentPlayer.inputSeq += 1;
@@ -130,23 +144,30 @@ class Game extends BaseGame {
         //don't process ones we already have simulated locally
         if (input.seq > player.lastInputSeq) {
             for (let cmd of input.inputs) {
-                switch (cmd) {
-                    case utils.Action.WalkDown:
-                        vector.y += player.speed.y;
+                switch (cmd.action) {
+                    case utils.Action.Idle:
                         break;
-                    case utils.Action.WalkLeft:
-                        vector.x -= player.speed.x;
+                    case utils.Action.Walk:
+                        switch (cmd.direction) {
+                            case utils.Direction.Down:
+                                vector.y += player.speed.y;
+                                break;
+                            case utils.Direction.Left:
+                                vector.x -= player.speed.x;
+                                break;
+                            case utils.Direction.Right:
+                                vector.x += player.speed.x;
+                                break;
+                            case utils.Direction.Up:
+                                vector.y -= player.speed.y;
+                                break;
+                        }
                         break;
-                    case utils.Action.WalkRight:
-                        vector.x += player.speed.x;
-                        break;                
-                    case utils.Action.WalkUp:
-                        vector.y -= player.speed.y;
-                        break;
-                    case utils.Action.Shoot:
+                    case utils.Action.Attack:
                         console.log(1);
                         break;
                 }
+                player.setAction(cmd.action);
             }
         }
         if (!player.pos) {

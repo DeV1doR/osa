@@ -19,6 +19,7 @@ export namespace BObject {
                     public x: number = 0,
                     public y: number = 0,
                     public direction: utils.Direction = utils.Direction.Right,
+                    public action: utils.Action = utils.Action.Walk,
                     public speed: utils.IVector = <utils.IVector>{x: 5, y: 5}) {
             this.prevPos = <utils.IVector>{x: x, y: y};
         }
@@ -26,6 +27,10 @@ export namespace BObject {
         public setObject(canvasEl: any): void {
             this.canvasEl = canvasEl;
             this.redrawPos();
+        }
+
+        public setAction(action: utils.Action): void {
+            this.action = action;
         }
 
         public changeDirection(): void {
@@ -38,7 +43,7 @@ export namespace BObject {
 
         public redrawPos(): void {
             this.changeDirection();
-            this.canvasEl.gotoAndPlay('AbuWalk' + utils.Direction[this.direction]);
+            this.canvasEl.gotoAndPlay(this._animKey);
             this.canvasEl.setPos(this.pos.x - 0.5 * this.width, this.pos.y - 0.5 * this.height);
         }
 
@@ -68,6 +73,10 @@ export namespace BObject {
 
         public get isFaceLeft(): boolean {
             return this.prevPos.x > this.pos.x;
+        }
+
+        private get _animKey(): string {
+            return this.canvasEl.loaderSpriteName + utils.Action[this.action] + utils.Direction[this.direction];
         }
     }
 

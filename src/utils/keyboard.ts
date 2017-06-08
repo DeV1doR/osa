@@ -1,16 +1,18 @@
 import * as PIXI from "pixi.js";
 
 export enum Direction {
+    Empty,
     Left,
     Right,
+    Up,
+    Down,
 }
 
 export enum Action {
-    WalkDown,
-    WalkLeft,
-    WalkRight,
-    WalkUp,
+    Walk,
     Idle,
+    Swing,
+    Attack,
     Shoot,
 }
 
@@ -22,10 +24,15 @@ export enum KeyBoard {
     Spacebar = 32,
 }
 
+export interface ICmd {
+    action: Action;
+    direction: Direction;
+}
+
 export interface IInput {
     seq: number;
     time: number;
-    inputs: Action[];
+    inputs: ICmd[];
 }
 
 export interface IKeyboad {
@@ -34,6 +41,10 @@ export interface IKeyboad {
     isUp: boolean;
     downHandler?: (e: KeyboardEvent) => void;
     upHandler?: (e: KeyboardEvent) => void;
+}
+
+export const isKeyboard = (object: any): object is IKeyboad => {
+    return 'isDown' in object;
 }
 
 export const createKey = (keyCode: number): IKeyboad => {
