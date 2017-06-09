@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title></title>
+</head>
+<body>
+    <canvas id="main-lp" style="border: 1px solid red;"></canvas>
+    <script type="text/javascript">
+        window.module = {};
+    </script>
+    <script type="text/javascript" src="../node_modules/createjs-easeljs/lib/easeljs-0.8.2.min.js"></script>
+    <script type="text/javascript" src="../node_modules/box2dweb/box2d.js"></script>
+    <script type="text/javascript">
+    var b2d = {
+        b2Vec2 : Box2D.Common.Math.b2Vec2,
+        b2BodyDef : Box2D.Dynamics.b2BodyDef,
+        b2Body : Box2D.Dynamics.b2Body,
+        b2FixtureDef : Box2D.Dynamics.b2FixtureDef,
+        b2Fixture : Box2D.Dynamics.b2Fixture,
+        b2World : Box2D.Dynamics.b2World,
+        b2MassData : Box2D.Collision.Shapes.b2MassData,
+        b2PolygonShape : Box2D.Collision.Shapes.b2PolygonShape,
+        b2CircleShape : Box2D.Collision.Shapes.b2CircleShape,
+        b2DebugDraw : Box2D.Dynamics.b2DebugDraw
+    };
+
+    var WORLD_SCALE = 32;
+    var world;
+    var c = createjs;
+
+    window.app = {};
+
+    app.canvas = document.getElementById("main-lp");
+    app.canvas.width = 500;
+    app.canvas.height = 500;
+    app.canvas.style.backgroundColor = "white";
+    app.ctx = app.canvas.getContext("2d");
+    app.stage = new c.Stage(app.canvas);
+    app.stage.enableMouseOver(10);
+
+    c.Ticker.addEventListener("tick", gameLoop);
+    c.Ticker.useRAF = true;
+    c.Ticker.setFPS(60);
+
+    setupPhysics();
+    createBox(b2d.b2Body.b2_dynamicBody, 0, 0);
+    setTimeout(function() {createBox(b2d.b2Body.b2_dynamicBody, 0, 0);}, 2000);
+    setTimeout(function() {createBox(b2d.b2Body.b2_dynamicBody, 0, 0);}, 4000);
+    // createBox(b2d.b2Body.b2_staticBody, 0, 300);
+
+    function setupPhysics() {
+        world = new b2d.b2World(new b2d.b2Vec2(0.0, 9.8), true);
+
+        var fixDef = new b2d.b2FixtureDef();
+        // fixDef.density = 1;
+        // fixDef.friction = 0.5;
+        // fixDef.restitution = 0;
+        fixDef.shape = new b2d.b2PolygonShape();
+        fixDef.shape.SetAsBox(app.canvas.width/2, app.canvas.height/2);
+        
+        var bodyDef = new b2d.b2BodyDef();
+        bodyDef.type = b2d.b2Body.b2_staticBody;
+        bodyDef.position.x = app.canvas.width/2;
+        bodyDef.position.y = app.canvas.heigh+10;
+
+        var body = world.CreateBody(bodyDef);
+        body.CreateFixture(fixDef);
+    }
+
+    function createBox(type, x, y, width, height) {
+        var width = width || 50;
+        var height = height || 50;
+        var fixDef = new b2d.b2FixtureDef();
+        // fixDef.density = 0.1;
+        // fixDef.friction = 0.5;
+        // fixDef.restitution = 0.6;
+        fixDef.shape = new b2d.b2PolygonShape();
+        fixDef.shape.SetAsBox(width/2, height/2);
+
+        var bodyDef = new b2d.b2BodyDef();
+        bodyDef.type = type;
+        bodyDef.position.x = x;
+        bodyDef.position.y = y;
+
+        var body = world.CreateBody(bodyDef);
+        body.CreateFixture(fixDef);
+
+        var rect = new c.Shape();
+        rect.graphics.beginFill("000000").drawRect(x, y, width, height);
+        app.stage.addChild(rect);
+
+        body.SetUserData(rect);
+
+        return {
+            sprite: rect,
+            box: body
+        }
+    }
+
+    function gameLoop(evt) {
+        world.Step(evt.delta/1000, 10, 10);
+        for (var body = world.GetBodyList(); body; body = body.GetNext()) {
+            var sprite = body.GetUserData();
+            if (sprite) {
+                var pt = body.GetPosition();
+                sprite.x = pt.x;
+                sprite.y = pt.y;
+                sprite.rotation = body.GetAngle() / Math.PI * 180;
+            }
+        }
+        app.stage.update();
+    }
+    </script>
+</body>
+</html>
