@@ -55,6 +55,8 @@ export namespace BObject {
 
             this.sprite.gotoAndPlay(this._animKey);
             this.sprite.setPos(this.pos);
+            this.sprite.setRotation(this.b2box.GetAngle() * (180 / Math.PI));
+            this.b2box.SetPosition(new b2Vec2(this.x, this.y));
         }
 
         public get width(): number {
@@ -68,15 +70,9 @@ export namespace BObject {
         public set pos(value: utils.IVector) {
             this.x = value.x;
             this.y = value.y;
-
-            if (this.b2box) {
-                this.b2box.SetPosition(<b2Vec2>this.pos);
-            }
         }
 
         public get pos(): utils.IVector {
-            if (this.b2box)
-                return <utils.IVector>this.b2box.GetPosition();
             return {x: this.x, y: this.y};
         }
 

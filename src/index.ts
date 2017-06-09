@@ -13,6 +13,10 @@ import * as utils from "./utils";
 import { BObject } from "./objects";
 
 
+const WORLD_SCALE: number = 32;
+const DEBUG: boolean = true;
+
+
 abstract class BaseGame {
 
     public updateId: number = 0;
@@ -65,8 +69,10 @@ abstract class BaseGame {
         const now: number = Date.now();
         this.updateId = requestAnimationFrame(this._gameLoop.bind(this));
 
-        if (this.world)
-            this.world.Step(1 / this.frameTime, 1);
+        if (this.world) {
+            this.world.Step(1 / this.frameTime, 10, 10);
+            this.world.ClearForces();
+        }
 
         this.deltaLoopTime = now - this.nextLoopTime;
 
@@ -96,28 +102,13 @@ class Game extends BaseGame {
     }
 
     public create(): void {
-        this._initWorld();
+        this.initWorld();
 
         this.players = {};
 
-        let player: BObject.Player = new BObject.Player('1');
-
-        let clip: utils.AnimatedClip = new utils.AnimatedClip('Abu', 'AbuIdleRight', 0.3, this.renderer);
-        player.setSprite(clip);
-
-        let pShape: b2PolygonShape = new b2PolygonShape();
-        pShape.SetAsBox(player.width / 2, player.height / 2);
-
-        let pBd: b2BodyDef = new b2BodyDef();
-        pBd.position.Set(player.x, player.y);
-
-        let pBody: b2Body = this.world.CreateBody(pBd);
-        pBody.CreateFixture2(pShape);
-        // player.setBox(pBody);
-
-        this._addPlayer(player);
-
-        this.currentPlayer = player;
+        this.currentPlayer = this.createPlayer('1', 0, 0, 'Abu');
+        this.createPlayer('2', 250, 400, 'Ninja');
+        this.createPlayer('3', 550, 300, 'Ninja');
 
         this.keyboard = {
             [utils.Action.Walk]: {
@@ -132,33 +123,59 @@ class Game extends BaseGame {
         };
     }
 
-    public physic(): void {
-        this.world.Step(1 / this.frameTime);
-    }
-
     public update(): void {
-        this._handleInput();
+        this.handleInput();
     }
 
     public render(): void {
-        for (let uid of Object.keys(this.players)) {
-            this.players[uid].redraw();
+        for (let body: b2Body = this.world.GetBodyList(); body; body = body.GetNext()) {
+            let object: utils.Ib2Box = body.GetUserData();
+            if (object) {
+                object.redraw();
+            }
         }
+        // for (let uid of Object.keys(this.players)) {
+        //     this.players[uid].redraw();
+        // }
     }
 
-    private _initWorld(): void {
+    private initWorld(): void {
         // set gravity
-        const gravity: b2Vec2 = new b2Vec2(0.0, 9.8);
+        const gravity: b2Vec2 = new b2Vec2(0.0, 0.0);
         // bodies in calm
         const doSleep: boolean = true;
         this.world = new b2World(gravity, doSleep);
     }
 
-    private _addPlayer(player: BObject.Player): void {
-        this.players[player.id] = player;
+    private createDynamicBox(obj: utils.Ib2Box): b2Body {
+        let pShape: b2PolygonShape = new b2PolygonShape();
+        pShape.SetAsBox(obj.width / 2, obj.height / 2);
+
+        let pBd: b2BodyDef = new b2BodyDef();
+        pBd.type = b2Body.b2_dynamicBody;
+        pBd.position.Set(obj.x, obj.y);
+
+        let pBody: b2Body = this.world.CreateBody(pBd);
+        pBody.CreateFixture2(pShape);
+
+        return pBody;
     }
 
-    private _handleInput(): void {
+    private createPlayer(uid: string, x: number = 0, y: number = 0, frameName: string): BObject.Player {
+        let player: BObject.Player = new BObject.Player(uid, x, y);
+
+        let clip: utils.AnimatedClip = new utils.AnimatedClip(frameName, `${frameName}IdleRight`, 0.3, this.renderer);
+        player.setSprite(clip);
+
+        let box: b2Body = this.createDynamicBox(player);
+        player.setBox(box);
+
+        this.players[player.id] = player;
+
+        return player;
+    }
+
+    private handleInput(): void {
         let inputs: utils.ICmd[] = [];
         let noInput: boolean = true;
         for (let ka of Object.keys(this.keyboard)) {
@@ -191,11 +208,11 @@ class Game extends BaseGame {
                 time: Math.floor(Date.now() / 1000),
                 inputs: inputs,
             };
-            this._applyInput(this.currentPlayer, packet);
+            this.applyInput(this.currentPlayer, packet);
         }
     }
 
-    private _applyInput(player: BObject.Player, input: utils.IInput): void {
+    private applyInput(player: BObject.Player, input: utils.IInput): void {
         let vector: utils.IVector = {x: 0, y: 0};
         //don't process ones we already have simulated locally
         if (input.seq > player.lastInputSeq) {
@@ -220,6 +237,7 @@ class Game extends BaseGame {
                         }
                         break;
                     case utils.Action.Attack:
+                        this.world.DestroyBody(this.players['2'].b2box);
                         break;
                 }
                 player.setAction(cmd.action);

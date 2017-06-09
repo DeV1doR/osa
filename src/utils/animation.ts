@@ -2,6 +2,13 @@ import * as PIXI from "pixi.js";
 
 import { IVector } from "./keyboard";
 
+export interface Ib2Box {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    redraw: () => void;
+}
 
 export class AnimatedClip {
 
@@ -40,6 +47,10 @@ export class AnimatedClip {
             this._switchSprite(frameName);
     }
 
+    public getGlobalPosition(): PIXI.Point {
+        return this._currentSprite.getGlobalPosition();
+    }
+
     public get width(): number {
         return this._currentSprite.width;
     }
@@ -52,20 +63,20 @@ export class AnimatedClip {
         return this._currentSprite.scale;
     }
 
-    public changeDirection(): void {
-        this._currentSprite.scale.x *= -1;
-    }
-
-    public get speed(): number {
+    public get animationSpeed(): number {
         return this._currentSprite.animationSpeed;
     }
 
-    public set speed(value: number) {
+    public set animationSpeed(value: number) {
         this._currentSprite.animationSpeed = value;
     }
 
     public setPos(vector: IVector): void {
         this._currentSprite.position.set(vector.x, vector.y);
+    }
+
+    public setRotation(angle: number): void {
+        this._currentSprite.rotation = angle;
     }
 
     public play(): void {
