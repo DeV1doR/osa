@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@types/box2d@^0.0.31":
+  version "0.0.31"
+  resolved "https://registry.yarnpkg.com/@types/box2d/-/box2d-0.0.31.tgz#d22664f7af4c3d6fb902ddcf3ed5c3e676fdd475"
+
 "@types/browser-sync@^0.0.34":
   version "0.0.34"
   resolved "https://registry.yarnpkg.com/@types/browser-sync/-/browser-sync-0.0.34.tgz#1bf665b2d81eb35543cabedbd31605acee4f6271"
@@ -493,6 +497,10 @@ boom@2.x.x:
   resolved "https://registry.yarnpkg.com/boom/-/boom-2.10.1.tgz#39c8918ceff5799f83f9492a848f625add0c766f"
   dependencies:
     hoek "2.x.x"
+
+box2dweb@^2.1.0-b:
+  version "2.1.0-b"
+  resolved "https://registry.yarnpkg.com/box2dweb/-/box2dweb-2.1.0-b.tgz#a7b5699a27b210f5c5479145dfad3132a6f5478d"
 
 brace-expansion@^1.0.0, brace-expansion@^1.1.7:
   version "1.1.7"

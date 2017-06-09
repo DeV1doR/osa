@@ -1,4 +1,8 @@
 import * as PIXI from "pixi.js";
+import * as Box2D from "box2dweb";
+
+import b2Body = Box2D.Dynamics.b2Body;
+import b2Vec2 = Box2D.Common.Math.b2Vec2;
 
 import * as utils from "./../utils";
 
@@ -10,7 +14,8 @@ export namespace BObject {
         public lastInputSeq: number = 0;
         public lastInputTime: number = 0;
 
-        public canvasEl?: any;
+        public sprite: any;
+        public b2box: b2Body;
 
         public inputs: utils.IInput[];
         public prevPos: utils.IVector;
@@ -24,9 +29,13 @@ export namespace BObject {
             this.prevPos = <utils.IVector>{x: x, y: y};
         }
 
-        public setObject(canvasEl: any): void {
-            this.canvasEl = canvasEl;
-            this.redrawPos();
+        public setSprite(sprite: any): void {
+            this.sprite = sprite;
+        }
+
+        public setBox(b2box: b2Body): void {
+            this.b2box = b2box;
+            this.b2box.SetUserData(this);
         }
 
         public setAction(action: utils.Action): void {
@@ -41,30 +50,34 @@ export namespace BObject {
             }
         }
 
-        public redrawPos(): void {
+        public redraw(): void {
             this.changeDirection();
-            this.canvasEl.gotoAndPlay(this._animKey);
-            this.canvasEl.setPos(this.pos.x - 0.5 * this.width, this.pos.y - 0.5 * this.height);
+
+            this.sprite.gotoAndPlay(this._animKey);
+            this.sprite.setPos(this.pos);
         }
 
         public get width(): number {
-            return this.canvasEl.width;
+            return this.sprite.width;
         }
 
         public get height(): number {
-            return this.canvasEl.height;
+            return this.sprite.height;
         }
 
         public set pos(value: utils.IVector) {
             this.x = value.x;
             this.y = value.y;
+
+            if (this.b2box) {
+                this.b2box.SetPosition(<b2Vec2>this.pos);
+            }
         }
 
         public get pos(): utils.IVector {
-            return {
-                x: this.x,
-                y: this.y,
-            }
+            if (this.b2box)
+                return <utils.IVector>this.b2box.GetPosition();
+            return {x: this.x, y: this.y};
         }
 
         public get isFaceRight(): boolean {
@@ -76,7 +89,7 @@ export namespace BObject {
         }
 
         private get _animKey(): string {
-            return this.canvasEl.loaderSpriteName + utils.Action[this.action] + utils.Direction[this.direction];
+            return this.sprite.loaderSpriteName + utils.Action[this.action] + utils.Direction[this.direction];
         }
     }
 

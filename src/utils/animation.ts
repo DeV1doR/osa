@@ -1,5 +1,8 @@
 import * as PIXI from "pixi.js";
 
+import { IVector } from "./keyboard";
+
+
 export class AnimatedClip {
 
     private _currentFrame: string;
@@ -27,6 +30,7 @@ export class AnimatedClip {
             let mc = new PIXI.extras.AnimatedSprite(textures);
             mc.animationSpeed = frameRate;
             mc.visible = false;
+            mc.anchor.set(0.5, 0.5);
 
             this.renderer.stage.addChild(mc);
             this._sprites[sKey] = mc;
@@ -60,8 +64,8 @@ export class AnimatedClip {
         this._currentSprite.animationSpeed = value;
     }
 
-    public setPos(x: number, y: number): void {
-        this._currentSprite.position.set(x, y);
+    public setPos(vector: IVector): void {
+        this._currentSprite.position.set(vector.x, vector.y);
     }
 
     public play(): void {

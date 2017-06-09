@@ -1,4 +1,13 @@
 import * as PIXI from "pixi.js";
+import * as Box2D from "box2dweb";
+
+import b2AABB = Box2D.Collision.b2AABB;
+import b2Body = Box2D.Dynamics.b2Body;
+import b2BodyDef = Box2D.Dynamics.b2BodyDef;
+import b2World = Box2D.Dynamics.b2World;
+import b2Vec2 = Box2D.Common.Math.b2Vec2;
+import b2PolygonShape = Box2D.Collision.Shapes.b2PolygonShape;
+
 
 import * as utils from "./utils";
 import { BObject } from "./objects";
@@ -10,6 +19,8 @@ abstract class BaseGame {
     public nextLoopTime: number = 0;
     public deltaLoopTime: number = 0;
     public tickRate: number;
+
+    public world: b2World;
 
     public canvas: HTMLCanvasElement;
     public renderer: PIXI.Application;
@@ -31,7 +42,7 @@ abstract class BaseGame {
         this.renderer.view.style.top = '50%';
         this.renderer.view.style.transform = 'translate3d( -50%, -50%, 0 )';
         this.frameTime = frameTime;
-        this.load();
+        this.preload();
         PIXI.loader.load(() => {
             this.create.bind(this)();
             this._gameLoop();
@@ -42,7 +53,7 @@ abstract class BaseGame {
 
     public abstract update(): void
 
-    public abstract load(): void
+    public abstract preload(): void
 
     public abstract render(): void
 
@@ -53,6 +64,9 @@ abstract class BaseGame {
     private _gameLoop(): void {
         const now: number = Date.now();
         this.updateId = requestAnimationFrame(this._gameLoop.bind(this));
+
+        if (this.world)
+            this.world.Step(1 / this.frameTime, 1);
 
         this.deltaLoopTime = now - this.nextLoopTime;
 
@@ -65,15 +79,14 @@ abstract class BaseGame {
     }
 }
 
-let counter = 0;
 
 class Game extends BaseGame {
 
-    public players: {[uid: string]: BObject.Player} = {};
+    public players: {[uid: string]: BObject.Player}
     public currentPlayer: BObject.Player;
     public keyboard: { [action: number]: {[direction: number]: any} };
 
-    public load(): void {
+    public preload(): void {
         PIXI.loader
             .add('Abu', 'static/assets/Abu/Abu.json')
             .add('Dether', 'static/assets/Dether/Dether.json')
@@ -83,16 +96,28 @@ class Game extends BaseGame {
     }
 
     public create(): void {
-        this.currentPlayer = new BObject.Player('1');
-        this.currentPlayer.setObject(new utils.AnimatedClip('Reaver', null, 0.3, this.renderer));
+        this._initWorld();
 
-        this.players['1'] = this.currentPlayer;
+        this.players = {};
 
-        this.players['2'] = new BObject.Player('2', 300, 300);
-        this.players['2'].setObject(new utils.AnimatedClip('Ninja', null, 0.1, this.renderer));
+        let player: BObject.Player = new BObject.Player('1');
 
-        this.players['3'] = new BObject.Player('3', 450, 50);
-        this.players['3'].setObject(new utils.AnimatedClip('Abu', null, 0.2, this.renderer));
+        let clip: utils.AnimatedClip = new utils.AnimatedClip('Abu', 'AbuIdleRight', 0.3, this.renderer);
+        player.setSprite(clip);
+
+        let pShape: b2PolygonShape = new b2PolygonShape();
+        pShape.SetAsBox(player.width / 2, player.height / 2);
+
+        let pBd: b2BodyDef = new b2BodyDef();
+        pBd.position.Set(player.x, player.y);
+
+        let pBody: b2Body = this.world.CreateBody(pBd);
+        pBody.CreateFixture2(pShape);
+        // player.setBox(pBody);
+
+        this._addPlayer(player);
+
+        this.currentPlayer = player;
 
         this.keyboard = {
             [utils.Action.Walk]: {
@@ -107,35 +132,30 @@ class Game extends BaseGame {
         };
     }
 
+    public physic(): void {
+        this.world.Step(1 / this.frameTime);
+    }
+
     public update(): void {
         this._handleInput();
-        counter++;
-        this._applyInput(this.players['2'], {
-            seq: counter,
-            time: Math.floor(Date.now() / 1000),
-            inputs: [
-                <utils.ICmd>{
-                    action: utils.Action.Walk,
-                    direction: Math.random() < 0.5 ? utils.Direction.Right: utils.Direction.Left,
-                }
-            ],
-        });
-        this._applyInput(this.players['3'], {
-            seq: counter,
-            time: Math.floor(Date.now() / 1000),
-            inputs: [
-                <utils.ICmd>{
-                    action: utils.Action.Attack,
-                    direction: Math.random() < 0.5 ? utils.Direction.Right: utils.Direction.Left,
-                }
-            ],
-        });
     }
 
     public render(): void {
         for (let uid of Object.keys(this.players)) {
-            this.players[uid].redrawPos();
+            this.players[uid].redraw();
         }
+    }
+
+    private _initWorld(): void {
+        // set gravity
+        const gravity: b2Vec2 = new b2Vec2(0.0, 9.8);
+        // bodies in calm
+        const doSleep: boolean = true;
+        this.world = new b2World(gravity, doSleep);
+    }
+
+    private _addPlayer(player: BObject.Player): void {
+        this.players[player.id] = player;
     }
 
     private _handleInput(): void {
