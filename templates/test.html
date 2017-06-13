@@ -5,7 +5,10 @@
    <title></title>
 </head>
 <body>
-    <canvas id="main-lp" style="border: 1px solid red;"></canvas>
+    <section id='game'>
+        <canvas id='game-canvas' style="float:left; border: solid 1px"></canvas> <!-- behind 'debug-canvas' -->
+        <canvas id='debug-canvas' style="float:left; border: solid 1px"></canvas> <!-- in front of 'game-canvas' -->
+    </section>
     <script type="text/javascript">
         window.module = {};
     </script>
@@ -26,14 +29,21 @@
     };
 
     var WORLD_SCALE = 32;
+    var shouldDrawDebug = false;
     var world;
     var c = createjs;
+    var W = 500;
+    var H = 500;
 
     window.app = {};
+    app.debugCanvas = document.getElementById("debug-canvas");
+    app.debugCanvas.width = W;
+    app.debugCanvas.height = H;
 
-    app.canvas = document.getElementById("main-lp");
-    app.canvas.width = 500;
-    app.canvas.height = 500;
+    app.canvas = document.getElementById("game-canvas");
+    app.canvas.width = W;
+    app.canvas.height = H;
+    app.debugCanvas.style.display = "none";
     app.canvas.style.backgroundColor = "white";
     app.ctx = app.canvas.getContext("2d");
     app.stage = new c.Stage(app.canvas);
@@ -44,69 +54,77 @@
     c.Ticker.setFPS(60);
 
     setupPhysics();
-    createBox(b2d.b2Body.b2_dynamicBody, 0, 0);
-    setTimeout(function() {createBox(b2d.b2Body.b2_dynamicBody, 0, 0);}, 2000);
-    setTimeout(function() {createBox(b2d.b2Body.b2_dynamicBody, 0, 0);}, 4000);
-    // createBox(b2d.b2Body.b2_staticBody, 0, 300);
+    showDebugDraw();
+    createBox(b2d.b2Body.b2_dynamicBody, 0, 0, 50, 50);
+    createBox(b2d.b2Body.b2_dynamicBody, 100, 0, 50, 50);
+    createBox(b2d.b2Body.b2_staticBody, 0, H/2, 150, 1);
+    createBox(b2d.b2Body.b2_staticBody, 300, H/2 + 100, 150, 1);
+    setTimeout(function() {createBox(b2d.b2Body.b2_dynamicBody, 30, 0);}, 1000);
+    // setTimeout(function() {createBox(b2d.b2Body.b2_dynamicBody, 0, 0);}, 4000);
+
+    function switchDebug() {
+        shouldDrawDebug = (shouldDrawDebug) ? false : true;
+        app.debugCanvas.style.display = (app.debugCanvas.style.display === "") ? "none" : "";
+    }
+
+    function showDebugDraw() {
+        switchDebug();
+
+        var debugDraw = new b2d.b2DebugDraw();
+        debugDraw.SetSprite(document.getElementById('debug-canvas').getContext('2d'));
+        debugDraw.SetDrawScale(WORLD_SCALE);
+        debugDraw.SetFillAlpha(0.3);
+        debugDraw.SetLineThickness(1.0);
+        debugDraw.SetFlags(b2d.b2DebugDraw.e_shapeBit | b2d.b2DebugDraw.e_jointBit); // we can define what to draw with these bitwise flags.
+        world.SetDebugDraw(debugDraw);
+    }
 
     function setupPhysics() {
         world = new b2d.b2World(new b2d.b2Vec2(0.0, 9.8), true);
-
-        var fixDef = new b2d.b2FixtureDef();
-        // fixDef.density = 1;
-        // fixDef.friction = 0.5;
-        // fixDef.restitution = 0;
-        fixDef.shape = new b2d.b2PolygonShape();
-        fixDef.shape.SetAsBox(app.canvas.width/2, app.canvas.height/2);
-        
-        var bodyDef = new b2d.b2BodyDef();
-        bodyDef.type = b2d.b2Body.b2_staticBody;
-        bodyDef.position.x = app.canvas.width/2;
-        bodyDef.position.y = app.canvas.heigh+10;
-
-        var body = world.CreateBody(bodyDef);
-        body.CreateFixture(fixDef);
     }
 
     function createBox(type, x, y, width, height) {
         var width = width || 50;
         var height = height || 50;
-        var fixDef = new b2d.b2FixtureDef();
-        // fixDef.density = 0.1;
-        // fixDef.friction = 0.5;
-        // fixDef.restitution = 0.6;
-        fixDef.shape = new b2d.b2PolygonShape();
-        fixDef.shape.SetAsBox(width/2, height/2);
 
         var bodyDef = new b2d.b2BodyDef();
         bodyDef.type = type;
-        bodyDef.position.x = x;
-        bodyDef.position.y = y;
+        bodyDef.position.Set(x/WORLD_SCALE, y/WORLD_SCALE);
+
+        var fixDef = new b2d.b2FixtureDef();
+        fixDef.density = 0.5;
+        fixDef.friction = 0.5;
+        fixDef.restitution = 0.5;
+        fixDef.shape = new b2d.b2PolygonShape();
+        fixDef.shape.SetAsBox((width/2)/WORLD_SCALE, (height/2)/WORLD_SCALE);
 
         var body = world.CreateBody(bodyDef);
         body.CreateFixture(fixDef);
 
         var rect = new c.Shape();
-        rect.graphics.beginFill("000000").drawRect(x, y, width, height);
+        rect.x = x;
+        rect.y = y;
+        rect.regX = width / 2;
+        rect.regY = height / 2;
+        rect.graphics.beginStroke("000000").setStrokeStyle(1).drawRect(0, 0, width, height);
         app.stage.addChild(rect);
 
         body.SetUserData(rect);
-
-        return {
-            sprite: rect,
-            box: body
-        }
     }
 
     function gameLoop(evt) {
         world.Step(evt.delta/1000, 10, 10);
+        if (shouldDrawDebug) {
+            world.DrawDebugData();
+        }
+        world.ClearForces();
         for (var body = world.GetBodyList(); body; body = body.GetNext()) {
             var sprite = body.GetUserData();
             if (sprite) {
                 var pt = body.GetPosition();
-                sprite.x = pt.x;
-                sprite.y = pt.y;
-                sprite.rotation = body.GetAngle() / Math.PI * 180;
+                sprite.x = pt.x * WORLD_SCALE;
+                sprite.y = pt.y * WORLD_SCALE;
+                sprite.rotation = body.GetAngle() * (180 / Math.PI);
             }
         }
         app.stage.update();
