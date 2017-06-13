@@ -28,7 +28,7 @@
         b2DebugDraw : Box2D.Dynamics.b2DebugDraw
     };
 
-    var WORLD_SCALE = 32;
+    var PTM_RATIO = 32;
     var shouldDrawDebug = false;
     var world;
     var c = createjs;
@@ -39,6 +39,8 @@
     app.debugCanvas = document.getElementById("debug-canvas");
     app.debugCanvas.width = W;
     app.debugCanvas.height = H;
+
+    app.actors = [];
 
     app.canvas = document.getElementById("game-canvas");
     app.canvas.width = W;
@@ -55,12 +57,27 @@
 
     setupPhysics();
     showDebugDraw();
+    createCircle(b2d.b2Body.b2_dynamicBody, 500, 0, 50);
     createBox(b2d.b2Body.b2_dynamicBody, 0, 0, 50, 50);
     createBox(b2d.b2Body.b2_dynamicBody, 100, 0, 50, 50);
-    createBox(b2d.b2Body.b2_staticBody, 0, H/2, 150, 1);
+    createBox(b2d.b2Body.b2_staticBody, W/2, H/2, W, 1);
     createBox(b2d.b2Body.b2_staticBody, 300, H/2 + 100, 150, 1);
-    setTimeout(function() {createBox(b2d.b2Body.b2_dynamicBody, 30, 0);}, 1000);
-    // setTimeout(function() {createBox(b2d.b2Body.b2_dynamicBody, 0, 0);}, 4000);
+
+    function Actor(body, displayObject) {
+        this.body = body;
+        this.displayObject = displayObject;
+    }
+
+    Actor.prototype.update = function() {
+        this.displayObject.x = this.body.GetPosition().x * PTM_RATIO;
+        this.displayObject.y = this.body.GetPosition().y * PTM_RATIO;
+        this.displayObject.rotation = this.body.GetAngle() * (180 / Math.PI);
+    };
+
+
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
     function switchDebug() {
         shouldDrawDebug = (shouldDrawDebug) ? false : true;
@@ -72,7 +89,7 @@
 
         var debugDraw = new b2d.b2DebugDraw();
         debugDraw.SetSprite(document.getElementById('debug-canvas').getContext('2d'));
-        debugDraw.SetDrawScale(WORLD_SCALE);
+        debugDraw.SetDrawScale(PTM_RATIO);
         debugDraw.SetFillAlpha(0.3);
         debugDraw.SetLineThickness(1.0);
         debugDraw.SetFlags(b2d.b2DebugDraw.e_shapeBit | b2d.b2DebugDraw.e_jointBit); // we can define what to draw with these bitwise flags.
@@ -83,33 +100,65 @@
         world = new b2d.b2World(new b2d.b2Vec2(0.0, 9.8), true);
     }
 
+    function createCircle(type, x, y, radius) {
+        var radius = radius || 50;
+
+        var bodyDef = new b2d.b2BodyDef();
+        bodyDef.type = type;
+        bodyDef.position.Set(x/PTM_RATIO, y/PTM_RATIO);
+
+        var fixDef = new b2d.b2FixtureDef();
+        fixDef.density = 0.5;
+        fixDef.friction = 0.5;
+        fixDef.restitution = 0.5;
+        fixDef.shape = new b2d.b2CircleShape();
+        fixDef.shape.SetRadius(radius/PTM_RATIO);
+
+        var body = world.CreateBody(bodyDef);
+        body.CreateFixture(fixDef);
+
+        var circle = new c.Shape();
+        circle.x = x/PTM_RATIO;
+        circle.y = y/PTM_RATIO;
+        // circle.regX = radius / 2;
+        // circle.regY = radius / 2;
+        circle.graphics.beginStroke("000000").setStrokeStyle(1).drawCircle(0, 0, radius);
+        app.stage.addChild(circle);
+
+        body.SetUserData(circle);
+
+        app.actors.push(new Actor(body, circle));
+    }
+
     function createBox(type, x, y, width, height) {
         var width = width || 50;
         var height = height || 50;
 
         var bodyDef = new b2d.b2BodyDef();
         bodyDef.type = type;
-        bodyDef.position.Set(x/WORLD_SCALE, y/WORLD_SCALE);
+        bodyDef.position.Set(x/PTM_RATIO, y/PTM_RATIO);
 
         var fixDef = new b2d.b2FixtureDef();
         fixDef.density = 0.5;
         fixDef.friction = 0.5;
         fixDef.restitution = 0.5;
         fixDef.shape = new b2d.b2PolygonShape();
-        fixDef.shape.SetAsBox((width/2)/WORLD_SCALE, (height/2)/WORLD_SCALE);
+        fixDef.shape.SetAsBox((width/2)/PTM_RATIO, (height/2)/PTM_RATIO);
 
         var body = world.CreateBody(bodyDef);
         body.CreateFixture(fixDef);
 
         var rect = new c.Shape();
-        rect.x = x;
-        rect.y = y;
+        rect.x = x/PTM_RATIO;
+        rect.y = y/PTM_RATIO;
         rect.regX = width / 2;
         rect.regY = height / 2;
         rect.graphics.beginStroke("000000").setStrokeStyle(1).drawRect(0, 0, width, height);
         app.stage.addChild(rect);
 
         body.SetUserData(rect);
+
+        app.actors.push(new Actor(body, rect));
     }
 
     function gameLoop(evt) {
@@ -118,16 +167,21 @@
             world.DrawDebugData();
         }
         world.ClearForces();
-        for (var body = world.GetBodyList(); body; body = body.GetNext()) {
-            var sprite = body.GetUserData();
-            if (sprite) {
-                var pt = body.GetPosition();
-                sprite.x = pt.x * WORLD_SCALE;
-                sprite.y = pt.y * WORLD_SCALE;
-                sprite.rotation = body.GetAngle() * (180 / Math.PI);
-            }
+        for (var i = 0; i < app.actors.length; i++) {
+            app.actors[i].update();
         }
+        // for (var body = world.GetBodyList(); body; body = body.GetNext()) {
+        //     var sprite = body.GetUserData();
+        //     if (sprite) {
+        //         var pt = body.GetPosition();
+        //         sprite.x = pt.x * PTM_RATIO;
+        //         sprite.y = pt.y * PTM_RATIO;
+        //         sprite.rotation = body.GetAngle() * (180 / Math.PI);
+        //     }
+        // }
         app.stage.update();
+
+        // setTimeout(function() {createBox(b2d.b2Body.b2_dynamicBody, getRandomInt(0, W), 0);}, getRandomInt(1, 5) * 1000);
     }
     </script>
 </body>
